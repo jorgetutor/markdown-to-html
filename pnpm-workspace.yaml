@@ -1,0 +1,5 @@
+overrides:
+  electron-to-chromium: "1.5.361"
+
+allowBuilds:
+  esbuild: true
