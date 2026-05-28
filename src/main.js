@@ -8,6 +8,10 @@ const copyButton = document.getElementById('copy-button');
 const clearButton = document.getElementById('clear-button');
 const autocopyToggle = document.getElementById('autocopy-toggle');
 const globalStatus = document.getElementById('global-status');
+const fileInput = document.getElementById('file-input');
+const openFileButton = document.getElementById('open-file-button');
+const markdownSection = document.getElementById('markdown-section');
+const dropOverlay = document.getElementById('drop-overlay');
 
 function renderMarkdown() {
   const markdown = markdownInput.value || '';
@@ -50,6 +54,53 @@ function clearMarkdown() {
   updateStatus('Markdown cleared.');
   markdownInput.focus();
 }
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    markdownInput.value = e.target.result;
+    renderMarkdown();
+    if (autocopyToggle.checked) copyHtml();
+    updateStatus(`Loaded: ${file.name}`);
+  };
+  reader.onerror = () => updateStatus('Failed to read file.');
+  reader.readAsText(file);
+}
+
+let dragCounter = 0;
+
+markdownSection.addEventListener('dragenter', (e) => {
+  e.preventDefault();
+  dragCounter++;
+  dropOverlay.classList.remove('hidden');
+});
+
+markdownSection.addEventListener('dragleave', () => {
+  dragCounter--;
+  if (dragCounter <= 0) {
+    dragCounter = 0;
+    dropOverlay.classList.add('hidden');
+  }
+});
+
+markdownSection.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+
+markdownSection.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dragCounter = 0;
+  dropOverlay.classList.add('hidden');
+  const file = e.dataTransfer.files[0];
+  if (file) loadFile(file);
+});
+
+openFileButton.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (file) loadFile(file);
+  fileInput.value = '';
+});
 
 markdownInput.addEventListener('input', renderMarkdown);
 markdownInput.addEventListener('paste', handlePaste);

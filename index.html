@@ -23,18 +23,29 @@
 
       <main class="flex-1 overflow-hidden grid lg:grid-cols-[1.1fr_1fr_1.1fr] gap-3">
 
-        <section class="flex flex-col overflow-hidden rounded-[28px] bg-white p-5">
+        <section id="markdown-section" class="relative flex flex-col overflow-hidden rounded-[28px] bg-white p-5">
+          <div id="drop-overlay" class="hidden absolute inset-0 z-10 rounded-[28px] border-2 border-dashed border-sky-400 bg-sky-50/90 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+            <p class="text-base font-semibold text-sky-700">Drop Markdown file here</p>
+          </div>
           <div class="shrink-0 mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
             <div>
               <h2 class="text-lg font-semibold text-slate-900">Markdown</h2>
-              <p class="mt-0.5 text-sm text-slate-500">Paste or type Markdown here.</p>
+              <p class="mt-0.5 text-sm text-slate-500">Paste, type, or open a Markdown file.</p>
             </div>
-            <button id="clear-button" type="button" class="self-end sm:self-auto flex items-center gap-1.5 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-              Clear
-            </button>
+            <div class="self-end sm:self-auto flex items-center gap-2">
+              <input id="file-input" type="file" accept=".md,.markdown,text/plain" class="hidden" />
+              <button id="open-file-button" type="button" class="flex items-center gap-1.5 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Open file
+              </button>
+              <button id="clear-button" type="button" class="flex items-center gap-1.5 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                Clear
+              </button>
+            </div>
           </div>
-          <textarea id="markdown-input" class="flex-1 min-h-0 w-full resize-none rounded-[20px] border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-900 shadow-sm focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200 overflow-auto" placeholder="Type or paste Markdown here..."></textarea>
+          <textarea id="markdown-input" class="flex-1 min-h-0 w-full resize-none rounded-[20px] border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-900 shadow-sm focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200 overflow-auto" placeholder="Type, paste, or drop a .md file here..."></textarea>
         </section>
 
         <section class="flex flex-col overflow-hidden rounded-[28px] bg-white p-5">
@@ -66,6 +77,10 @@
         </section>
 
       </main>
+
+      <footer class="shrink-0 px-6 py-2 text-center text-xs text-slate-400">
+        MIT License &mdash; <a href="https://jorgetutor.net" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-600 transition-colors">jorgetutor.net</a>
+      </footer>
     </div>
 
     <a href="https://github.com/jorgetutor/markdown-to-html" class="github-corner" aria-label="View source on GitHub" target="_blank" rel="noopener noreferrer">
