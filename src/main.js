@@ -7,7 +7,6 @@ const htmlPreview = document.getElementById('html-preview');
 const copyButton = document.getElementById('copy-button');
 const clearButton = document.getElementById('clear-button');
 const autocopyToggle = document.getElementById('autocopy-toggle');
-const status = document.getElementById('status');
 const globalStatus = document.getElementById('global-status');
 
 function renderMarkdown() {
@@ -15,24 +14,20 @@ function renderMarkdown() {
   const html = md.render(markdown);
   htmlOutput.value = html;
   htmlPreview.innerHTML = html;
+  copyButton.disabled = !html.trim();
 }
 
 function updateStatus(message) {
-  status.textContent = message;
   globalStatus.textContent = message;
   window.clearTimeout(updateStatus._timeout);
   updateStatus._timeout = window.setTimeout(() => {
-    status.textContent = '';
     globalStatus.textContent = '';
   }, 1800);
 }
 
 function copyHtml() {
   const html = htmlOutput.value;
-  if (!html) {
-    updateStatus('Nothing to copy yet.');
-    return;
-  }
+  if (!html.trim()) return;
 
   navigator.clipboard
     .writeText(html)
@@ -58,6 +53,9 @@ function clearMarkdown() {
 
 markdownInput.addEventListener('input', renderMarkdown);
 markdownInput.addEventListener('paste', handlePaste);
+markdownInput.addEventListener('blur', () => {
+  if (autocopyToggle.checked) copyHtml();
+});
 copyButton.addEventListener('click', copyHtml);
 clearButton.addEventListener('click', clearMarkdown);
 
